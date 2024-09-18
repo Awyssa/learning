@@ -5,12 +5,9 @@ import (
 	"unicode/utf8"
 );
 
-func foo() rune {
-	var randomRune rune = 'l'
-	return randomRune
-}
-
 func main() {
+	fmt.Println("Lesson 1: Variables");
+
 	// Numbers
 	var myNumber int = 100;
 	fmt.Println(myNumber)
@@ -67,4 +64,9 @@ func main() {
 	// we also have const just like JS
 	const myConst string = "const value"
 	fmt.Println(myConst);
+}
+
+func foo() rune {
+	var randomRune rune = 'l'
+	return randomRune
 }
