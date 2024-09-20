@@ -4,6 +4,9 @@ import (
 	"fmt"
 )
 
+/*
+	In Go, a struct (short for structure) is a composite data type that groups together variables under a single type. These variables, known as fields, can have different types. A struct is particularly useful for representing complex data models that are composed of different fields. Structs can be compared to classes in object-oriented languages, but Go does not support inheritance like some OOP languages do.
+*/
 type gasEngine struct {
 	mpg uint8
 	gallons uint8
@@ -19,19 +22,24 @@ type owner struct {
 	name string
 }
 
-// The e part assigns the function to the gasEngine type
+// The e part assigns the function to the gasEngine type. This is basically a method on the gasEngine "class"
 func (e gasEngine) milesLeft() uint8 {
 	return e.gallons*e.mpg
 }
 
+// Same as above, but for the elecEngine
 func (e elecEngine) milesLeft() uint8 {
 	return e.kwh*e.mpkwh
 }
 
+/*
+	In Go, an interface is a type that defines a set of method signatures but does not provide implementations for those methods. Types that implement all the methods in the interface are said to "satisfy" the interface, even if they do not explicitly declare that they do so. This enables a form of polymorphism where different types can be used interchangeably as long as they implement the same interface.
+*/
 type engine interface { 
 	milesLeft() uint8
 }
 
+// We are using the engine interface here, ensuring whatever object is passed to the canMakeIt function has a method of milesLeft and has a uint8 return value
 func canMakeIt(e engine, miles uint8) {
 	if miles <= e.milesLeft() {
 		fmt.Println("You can make it there!")
