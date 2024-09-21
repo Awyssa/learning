@@ -57,7 +57,7 @@ func save(result string) {
 }
 
 func log() {
-	// Sometimes we don't want a full lock, we just want to read the data, hence why we can use a read write mutex to achieve this
+	// Sometimes we don't want a full lock, we just want to read the data, hence why we can use a read write mutex to achieve this.
 	m.RLock()
 	fmt.Printf("\nThe current results are: %v", results)
 	m.RUnlock()
