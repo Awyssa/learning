@@ -9,6 +9,8 @@ import (
 var MAX_CHICKEN_PRICE float32 = 5
 
 func main() {
+	fmt.Println("Lesson 8.5: Channels extended")
+
 	var chickenChannel = make(chan string)
 	var websites = []string{"Waitrose.com", "Tesco.com", "Sainsbury.com"}
 
