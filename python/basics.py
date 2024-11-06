@@ -26,3 +26,26 @@ remainder = 10 % 3         # Returns 1 (modulo operation)
 # String operations
 full_name = "Alice" + " " + "Smith"  # String concatenation
 greeting = "Hello" * 3     # Repeats string 3 times: "HelloHelloHello"
+
+# -------- Functions --------
+def greet(name, greeting="Hello"):
+    """
+    A simple function that returns a greeting message.
+    Args:
+        name (str): The name of the person to greet
+        greeting (str): The greeting to use (default is "Hello")
+    Returns:
+        str: The complete greeting message
+    """
+    return f"{greeting}, {name}!"
+
+# Function with multiple returns
+def calculate_statistics(numbers):
+    """Calculate basic statistics for a list of numbers."""
+    if not numbers:
+        return 0, 0, 0
+    
+    total = sum(numbers)
+    average = total / len(numbers)
+    maximum = max(numbers)
+    return total, average, maximum
