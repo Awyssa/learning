@@ -1,11 +1,12 @@
 # Introduction to Object-Oriented Programming (OOP) in Python
 # This file covers fundamental concepts including classes, objects, inheritance, and encapsulation
 
+
 # -------- Basic Class Definition --------
 class Student:
     # Class variable (shared among all instances)
     school_name = "Python High School"
-    
+
     # Constructor (initializer method)
     def __init__(self, name, age, grade):
         # Instance variables (unique to each instance)
@@ -13,21 +14,22 @@ class Student:
         self.age = age
         self.grade = grade
         self._attendance = 0  # Protected variable (convention)
-        
+
     # Instance method
     def study(self, subject):
         return f"{self.name} is studying {subject}"
-    
+
     # Getter method (property decorator)
     @property
     def attendance(self):
         return self._attendance
-    
+
     # Setter method
     @attendance.setter
     def attendance(self, days):
         if days >= 0:
             self._attendance = days
+
 
 # -------- Inheritance Example --------
 class GraduateStudent(Student):
@@ -35,11 +37,12 @@ class GraduateStudent(Student):
         # Call parent class constructor
         super().__init__(name, age, grade)
         self.research_topic = research_topic
-    
+
     # Method overriding
     def study(self, subject):
         base_message = super().study(subject)
         return f"{base_message} and researching {self.research_topic}"
+
 
 # -------- Multiple Classes Interaction --------
 class Course:
@@ -47,12 +50,13 @@ class Course:
         self.name = name
         self.teacher = teacher
         self.students = []
-    
+
     def add_student(self, student):
         self.students.append(student)
-    
+
     def get_class_size(self):
         return len(self.students)
+
 
 # -------- Usage Examples --------
 # Creating objects (instances)
@@ -72,19 +76,20 @@ python_course = Course("Python 101", "Dr. Smith")
 python_course.add_student(student1)
 python_course.add_student(grad_student)
 
+
 # Class Methods in Python
 class Library:
     total_books = 0  # Class variable
-    
+
     def __init__(self, name):
         self.name = name
         self.books = []
-    
+
     # Regular instance method - has access to instance attributes (self)
     def add_book(self, book):
         self.books.append(book)
         Library.total_books += 1
-    
+
     # Class method - has access to class attributes (cls)
     @classmethod
     def from_book_list(cls, name, book_list):
@@ -93,17 +98,18 @@ class Library:
         for book in book_list:
             library.add_book(book)
         return library
-    
+
     # Another class method - for working with class variables
     @classmethod
     def get_total_books(cls):
         return cls.total_books
-    
+
     # Alternative constructor using class method
     @classmethod
     def create_empty(cls, name):
         """Create an empty library with just a name"""
         return cls(name)
+
 
 # Usage example
 books = ["1984", "Dune", "Foundation"]
@@ -112,9 +118,10 @@ empty_library = Library.create_empty("New Branch")
 
 print(Library.get_total_books())  # Prints: 3
 
+
 class ExampleClass:
     class_variable = 0
-    
+
     def __init__(self, value):
         self.value = value
 
@@ -158,11 +165,11 @@ class ExampleClass:
     def __str__(self):
         """Magic method for string representation"""
         return f"ExampleClass with value {self.value}"
-    
+
     def __len__(self):
         """Magic method for len()"""
         return self.value
-    
+
     # 8. Private Method (by convention)
     def _private_method(self):
         """Private method (single underscore) - convention for internal use"""
