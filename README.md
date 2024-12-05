@@ -1,2 +1,2 @@
 # learning
-Things I am learning
+Things I am learning and teaching.
