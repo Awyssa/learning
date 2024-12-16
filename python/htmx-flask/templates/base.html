@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTMX Multi-page Site</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        .nav-link.active { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/" class="nav-link" hx-boost="true">Home</a>
+        <a href="/about" class="nav-link" hx-boost="true">About</a>
+        <a href="/contact" class="nav-link" hx-boost="true">Contact</a>
+    </nav>
+
+    <main id="content">
+        {{ content | safe }}
+    </main>
+
+    <script>
+        document.body.addEventListener('htmx:afterSettle', function(evt) {
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === window.location.pathname) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
