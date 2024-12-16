@@ -1,0 +1,13 @@
+<div>
+    <h1>Welcome Home</h1>
+    <p>This is the home page of our HTMX-powered website.</p>
+
+    <!-- Example of dynamic content loading -->
+    <button hx-get="/partial/about"
+            hx-target="#dynamic-content"
+            hx-swap="innerHTML">
+        Load About Content
+    </button>
+
+    <div id="dynamic-content"></div>
+</div>
