@@ -14,7 +14,7 @@ const Modal = ({ children }) => {
     const modalRoot = document.getElementById("modal")
     modalRoot?.appendChild(elRef.current)
 
-    return "TODO"
+    return true
   }, [])
 
   return createPortal(<div>{children}</div>, elRef.current)
