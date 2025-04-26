@@ -4,32 +4,45 @@ import (
 	"fmt"
 )
 
+type Person struct {
+	Name string
+	Age  int
+}
+
 func main() {
+	// Defined struct
+	person := Person{Name: "Michael", Age: 30}
+	fmt.Printf("This is our person %+v\n", person)
 
-	// Control flow
-	age := 30
-
-	if age >= 18 {
-		fmt.Println("You are an adult!")
-	} else if age <= 18 {
-		fmt.Println("You are not an adult!")
-	} else {
-		fmt.Println("Not sure...")
+	// Lambda struct
+	user := struct {
+		name string
+		id   int
+	}{
+		name: "John",
+		id:   24,
 	}
 
-	// Loops
-	for i := 0; i < 5; i++ {
-		fmt.Println("This is i", i)
+	fmt.Println(user)
+
+	type Address struct {
+		Street string
+		City   string
 	}
 
-	// Array (set length)
-	contToTen := [5]int{1, 2, 3, 4, 5}
-	fmt.Println(contToTen)
+	type Contact struct {
+		Name    string
+		Address Address
+	}
 
-	// Slice (dynamic length)
-	fruits := []string{"apple", "orange", "pear"}
-	fmt.Println(fruits)
+	contact := Contact{
+		Name: "Mark",
+		Address: Address{
+			Street: "123 main street",
+			City:   "London",
+		},
+	}
 
-	fruits = append(fruits, "pinapple")
-	fmt.Println(fruits)
+	fmt.Printf("This contact is %s, and the street is %s, and the city is %s\n", contact.Name, contact.Address.City, contact.Address.Street)
+
 }
