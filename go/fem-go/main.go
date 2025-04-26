@@ -45,4 +45,11 @@ func main() {
 
 	fmt.Printf("This contact is %s, and the street is %s, and the city is %s\n", contact.Name, contact.Address.City, contact.Address.Street)
 
+	person.modifyPerson("New name")
+
+	fmt.Printf("The new person name is %s", person.Name)
+}
+
+func (p *Person) modifyPerson(name string) {
+	p.Name = name
 }
