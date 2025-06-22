@@ -1,55 +1,39 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"net/http"
+	"time"
+
+	"project-1/internal/app"
+	"project-1/internal/routes"
 )
 
-type Person struct {
-	Name string
-	Age  int
-}
-
 func main() {
-	// Defined struct
-	person := Person{Name: "Michael", Age: 30}
-	fmt.Printf("This is our person %+v\n", person)
+	var port int
+	flag.IntVar(&port, "port", 8080, "go backend server port")
+	flag.Parse()
 
-	// Lambda struct
-	user := struct {
-		name string
-		id   int
-	}{
-		name: "John",
-		id:   24,
+	app, err := app.NewApplication()
+	if err != nil {
+		panic(err)
 	}
 
-	fmt.Println(user)
+	app.Logger.Printf("We are running on port %d", port)
 
-	type Address struct {
-		Street string
-		City   string
+	r := routes.SetupRoutes(app)
+
+	server := &http.Server{
+		Addr:         fmt.Sprintf(":%d", port),
+		IdleTimeout:  time.Minute,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 30 * time.Second,
+		Handler:      r,
 	}
 
-	type Contact struct {
-		Name    string
-		Address Address
+	err = server.ListenAndServe()
+	if err != nil {
+		app.Logger.Fatal(err)
 	}
-
-	contact := Contact{
-		Name: "Mark",
-		Address: Address{
-			Street: "123 main street",
-			City:   "London",
-		},
-	}
-
-	fmt.Printf("This contact is %s, and the street is %s, and the city is %s\n", contact.Name, contact.Address.City, contact.Address.Street)
-
-	person.modifyPerson("New name")
-
-	fmt.Printf("The new person name is %s", person.Name)
-}
-
-func (p *Person) modifyPerson(name string) {
-	p.Name = name
 }
