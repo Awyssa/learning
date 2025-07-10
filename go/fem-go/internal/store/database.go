@@ -3,9 +3,10 @@ package store
 import (
 	"database/sql"
 	"fmt"
+	"io/fs"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
-	"github.com/pressly/goose"
+	"github.com/pressly/goose/v3"
 )
 
 func Open() (*sql.DB, error) {
@@ -16,6 +17,15 @@ func Open() (*sql.DB, error) {
 
 	fmt.Println("Connected to db!")
 	return db, err
+}
+
+func MigrateFS(db *sql.DB, migrationsFS fs.FS, dir string) error {
+	goose.SetBaseFS(migrationsFS)
+	defer func() { 
+		goose.SetBaseFS(nil)
+	}()
+	return Migrate(db, dir)
+
 }
 
 func Migrate(db *sql.DB, dir string) error {
@@ -30,4 +40,4 @@ func Migrate(db *sql.DB, dir string) error {
 	}
 
 	return nil
-}
+} 
