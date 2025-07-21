@@ -1,1 +1,19 @@
 package store
+
+type Workout struct {
+	ID int `json:"id"`
+	Title string `json:"title"`
+	Description string `json:"description"`
+	DurationMinutes string `json:"duration_minutes"`
+	CaloriesBurned int `json:"calories_burned"`
+	Entries []WorkoutEntry `json:"entries"`
+}
+
+type WorkoutEntry struct {
+	ID int `json:"id"`
+	ExerciseName int `json:"exercise_name"`
+	Sets int `json:"sets"`
+	Reps *int `json:"reps"`
+	DurationSeconds *int `json:"duration_seconds"`
+	Weight *float64 `json:"weight"`
+}
