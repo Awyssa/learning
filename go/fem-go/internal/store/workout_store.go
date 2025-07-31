@@ -73,7 +73,7 @@ func (pg *PostgresWorkoutStore) CreateWorkout(workout *Workout) (*Workout, error
 		if err != nil {
 			return nil, err
 		}
-
-		return workout, nil
 	}
+
+	return workout, nil
 }
