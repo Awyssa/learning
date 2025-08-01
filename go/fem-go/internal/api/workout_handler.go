@@ -42,5 +42,10 @@ func (wh *WorkoutHandler) HandleCreateWorkout(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-
+	createdWorkout, err := wh.HandleCreateWorkout(&workout)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "failed to create workout", http.StatusInternalServerError)
+		return
+	}
 }
