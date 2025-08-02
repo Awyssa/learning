@@ -15,12 +15,13 @@ type WorkoutHandler struct {
 	workoutStore store.WorkoutStore
 }
 
-func NewWorkoutHandler() *WorkoutHandler {
-	return &WorkoutHandler{}
+func NewWorkoutHandler(workoutStore store.WorkoutStore) *WorkoutHandler {
+	return &WorkoutHandler{
+		workoutStore: workoutStore,
+	}
 }
 
 func (wh *WorkoutHandler) HandleGetWorkoutByID(w http.ResponseWriter, r *http.Request) {
-
 	paramsWorkoutID := chi.URLParam(r, "id")
 	if paramsWorkoutID == "" {
 		http.NotFound(w, r)
@@ -54,6 +55,5 @@ func (wh *WorkoutHandler) HandleCreateWorkout(w http.ResponseWriter, r *http.Req
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-
 	json.NewEncoder(w).Encode(createdWorkout)
 }

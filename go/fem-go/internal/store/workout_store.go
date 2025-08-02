@@ -1,25 +1,28 @@
 package store
 
-import "database/sql"
+import (
+	"database/sql"
+	"fmt"
+)
 
 type Workout struct {
-	ID int `json:"id"`
-	Title string `json:"title"`
-	Description string `json:"description"`
-	DurationMinutes string `json:"duration_minutes"`
-	CaloriesBurned int `json:"calories_burned"`
-	Entries []WorkoutEntry `json:"entries"`
+	ID              int            `json:"id"`
+	Title           string         `json:"title"`
+	Description     string         `json:"description"`
+	DurationMinutes int            `json:"duration_minutes"`
+	CaloriesBurned  int            `json:"calories_burned"`
+	Entries         []WorkoutEntry `json:"entries"`
 }
 
 type WorkoutEntry struct {
-	ID int `json:"id"`
-	ExerciseName int `json:"exercise_name"`
-	Sets int `json:"sets"`
-	Reps *int `json:"reps"`
-	DurationSeconds *int `json:"duration_seconds"`
-	Weight *float64 `json:"weight"`
-	Notes string `json:"notes"`
-	OrderIndex int `json:"order_index"`
+	ID              int      `json:"id"`
+	ExerciseName    string   `json:"exercise_name"`
+	Sets            int      `json:"sets"`
+	Reps            *int     `json:"reps"`
+	DurationSeconds *int     `json:"duration_seconds"`
+	Weight          *float64 `json:"weight"`
+	Notes           string   `json:"notes"`
+	OrderIndex      int      `json:"order_index"`
 }
 
 type PostgresWorkoutStore struct {
@@ -31,7 +34,7 @@ func NewPostgresWorkoutStore(db *sql.DB) *PostgresWorkoutStore {
 }
 
 // This interface is created as the abstraction between the application and database layers.
-type WorkoutStore interface { 
+type WorkoutStore interface {
 	CreateWorkout(*Workout) (*Workout, error)
 	GetWorkoutByID(id int64) (*Workout, error)
 }
@@ -57,7 +60,7 @@ func (pg *PostgresWorkoutStore) CreateWorkout(workout *Workout) (*Workout, error
 
 	for _, entry := range workout.Entries {
 		query := `
-		INSERT INTO workout_entries (workout_id, exercise_name, sets, reps, duration_seconds, weight, notes, order_index)
+		INSERT INTO workouts_entries (workout_id, exercise_name, sets, reps, duration_seconds, weight, notes, order_index)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 		RETURNING id
 		`
@@ -67,6 +70,8 @@ func (pg *PostgresWorkoutStore) CreateWorkout(workout *Workout) (*Workout, error
 		if err != nil {
 			return nil, err
 		}
+
+		fmt.Println("All good, lets commit!")
 
 		err = tx.Commit()
 
