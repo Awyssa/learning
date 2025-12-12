@@ -3,13 +3,13 @@ package main
 import (
 	"fmt"
 	"unicode/utf8"
-);
+)
 
 func main() {
-	fmt.Println("Lesson 1: Variables");
+	fmt.Println("Lesson 1: Variables")
 
 	// Numbers
-	var myNumber int = 100;
+	var myNumber int = 100
 	fmt.Println(myNumber)
 
 	var floatNum32 float32 = 10.1
@@ -31,12 +31,12 @@ func main() {
 	fmt.Println(myRune)
 
 	// Bool is a boolean, obvi
-	var myBoolean bool = false;
+	var myBoolean bool = false
 	fmt.Println("This boolean is", myBoolean)
 
 	// We can create a variable with no value like...
-	var noValueInt int;
-	fmt.Println(noValueInt)	
+	var noValueInt int
+	fmt.Println(noValueInt)
 	// for ints it will be 0, string is "", bool is false
 
 	// Go will auto infer the type if not declared, such as
@@ -48,7 +48,7 @@ func main() {
 	fmt.Println(anotherString)
 
 	// You can also create multiple values like so...
-	var1, var2, var3 := 1, 2, 3;
+	var1, var2, var3 := 1, 2, 3
 	fmt.Println(var1, var2, var3)
 
 	// One issue with this is that we do not know what functions return, like so
@@ -56,14 +56,14 @@ func main() {
 	fmt.Println(value)
 
 	// wtf is someValue going to be? We should do this
-	var value2 rune = foo();
+	var value2 rune = foo()
 	fmt.Println(value2)
 
 	// Now we know what type the value will be, yay!
 
 	// we also have const just like JS
 	const myConst string = "const value"
-	fmt.Println(myConst);
+	fmt.Println(myConst)
 }
 
 func foo() rune {
