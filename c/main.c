@@ -2,65 +2,73 @@
 #include <stdlib.h>
 #include <string.h>
 
-const char *DEFAULT_FILE = "/index.html";
+static const char DEFAULT_FILE[] = "index.html";
 
-char *get_path_name(char *req) {
-    char *start, *end;
-
-    // Iterate over the req string until we get a space, and save the start as there (skip 'GET ' and save the start as the space)
-    for (start = req; start[0] != ' '; start++) {
-        if (!start[0]) return NULL;
-    }
-
-    // increment by 1 to skip the empty space
+/* Extract the URL path from an HTTP request line.
+Returns a heap-allocated string, or NULL on failure. */
+char *get_path(const char *req) {
+    // Skip the method (e.g. "GET ")
+    const char *start = strchr(req, ' ');
+    
+    if (!start) return NULL;
+    
     start++;
 
-    // get the end char of the path using the same logic
-    for (end = start; end[0] != ' '; end++) {
-        if (!end[0]) return NULL;
-    }
+    // Find the end of the path
+    const char *end = strchr(start, ' ');
 
-    // calc the diff in memory addresses between the start and end of the path
-    int diff = end - start;
+    if (!end) return NULL;
 
-    // allocate the length of the URL path memory to the heap
-    char *path = malloc(diff + 1);
+    // Strip trailing slash
+    while (end > start + 1 && end[-1] == '/') end--;
 
-    // save the url path to the memory we just allocated
-    for (int i = 0; i < diff; i++) {
-        path[i] = start[i];
-    }
+    size_t len = end - start;
     
-    // add the null byte to identify where the string stops
-    path[diff] = '\0';
+    char *path = malloc(len + 1);
 
-    // return the start of the path string memory address
+    if (!path) return NULL;
+
+    memcpy(path, start, len);
+
+    path[len] = '\0';
+    
     return path;
 }
 
-char *append_html(char *path) {
-    // Append 'index.html' so we know what file to get
-    memcpy(
-        path + strlen(path), 
-        DEFAULT_FILE,
-        strlen(DEFAULT_FILE) + 1
-    );
+/* Append "/index.html" to path.
+Returns a new heap-allocated string, frees the original, or NULL on failure. */
+char *append_index(char *path) {
+    size_t path_len = strlen(path);
+    size_t suffix_len = 1 + strlen(DEFAULT_FILE); // '/' + "index.html"
+    
+    char *result = malloc(path_len + suffix_len + 1);
 
-    return 0;
-}
+    if (!result) {
+        free(path);
+        return NULL;
+    }
 
-int main() {
-    char *req = "GET /homepage/about/profile HTTP/1.1";
+    memcpy(result, path, path_len);
+    
+    result[path_len] = '/';
 
-    char *path = get_path_name(req);
-
-    printf("This is the path: %s\n", path);
-
-    append_html(path);
-
-    printf("This is the path after appending: %s\n", path);
+    memcpy(result + path_len + 1, DEFAULT_FILE, suffix_len); // includes '\0'
 
     free(path);
+    return result;
+}
 
+int main(void) {
+    const char *req = "GET /homepage/about/profile HTTP/1.1";
+
+    char *path = get_path(req);
+    if (!path) { fprintf(stderr, "Failed to parse path\n"); return 1; }
+    printf("Path:           %s\n", path);
+
+    path = append_index(path);
+    if (!path) { fprintf(stderr, "Out of memory\n"); return 1; }
+    printf("Path with file: %s\n", path);
+
+    free(path);
     return 0;
 }
